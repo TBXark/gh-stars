@@ -35,7 +35,8 @@ github-stars-gui/
   internal/ui/stars/vm.go        // ViewModel：状态、命令、并发控制
   internal/ui/details/view.go    // Repo 详情视图
   internal/ui/details/vm.go      // Repo 详情 ViewModel
-  internal/ui/nav/navigator.go   // 窗口导航/路由
+  internal/ui/route/router.go        // Router 接口（避免循环依赖）
+  internal/ui/nav/navigator.go       // 窗口导航/路由实现
   internal/ui/widgets/...        // 可复用控件（可选）
 ```
 

@@ -8,10 +8,10 @@ import (
 	"fyne.io/fyne/v2/widget"
 
 	"github.com/TBXark/gh-stars/internal/domain"
-	"github.com/TBXark/gh-stars/internal/ui/nav"
+	"github.com/TBXark/gh-stars/internal/ui/route"
 )
 
-func NewView(w fyne.Window, vm *VM, navigator nav.Navigator) fyne.CanvasObject {
+func NewView(w fyne.Window, vm *VM, router route.Router) fyne.CanvasObject {
 	username := widget.NewEntryWithData(vm.Username)
 	username.SetPlaceHolder("octocat")
 
@@ -46,11 +46,11 @@ func NewView(w fyne.Window, vm *VM, navigator nav.Navigator) fyne.CanvasObject {
 	statusBar := container.NewVBox(status, errLabel)
 
 	onOpen := func(repo domain.Repo) {
-		if navigator == nil {
+		if router == nil {
 			return
 		}
 		tokenStr, _ := vm.Token.Get()
-		navigator.ShowRepoDetails(repo.FullName, tokenStr)
+		router.ShowRepoDetails(repo.FullName, tokenStr)
 	}
 
 	list := NewRepoList(vm, onOpen)

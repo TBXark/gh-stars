@@ -2,8 +2,8 @@ package details
 
 import (
 	"context"
-	"errors"
 	"fmt"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -102,7 +102,7 @@ func (vm *VM) Load() {
 		if err != nil {
 			vm.runOnMain(func() {
 				_ = vm.Loading.Set(false)
-				_ = vm.Error.Set(errMessage(err))
+				_ = vm.Error.Set(err.Error())
 				_ = vm.Status.Set("Load failed")
 			})
 			return
@@ -132,7 +132,7 @@ func (vm *VM) apply(repo domain.RepoDetails) {
 	_ = vm.UpdatedAt.Set(formatTime(repo.UpdatedAt))
 	_ = vm.CreatedAt.Set(formatTime(repo.CreatedAt))
 	_ = vm.PushedAt.Set(formatTime(repo.PushedAt))
-	_ = vm.Private.Set(boolLabel(repo.Private))
+	_ = vm.Private.Set(strconv.FormatBool(repo.Private))
 	_ = vm.HTMLURL.Set(valueOrDash(repo.HTMLURL))
 }
 
@@ -149,21 +149,4 @@ func valueOrDash(value string) string {
 		return "-"
 	}
 	return value
-}
-
-func boolLabel(v bool) string {
-	if v {
-		return "true"
-	}
-	return "false"
-}
-
-func errMessage(err error) string {
-	if errors.Is(err, context.Canceled) {
-		return "request canceled"
-	}
-	if errors.Is(err, context.DeadlineExceeded) {
-		return "request timeout"
-	}
-	return err.Error()
 }

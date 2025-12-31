@@ -6,19 +6,24 @@ import (
 	"fyne.io/fyne/v2"
 
 	"github.com/TBXark/gh-stars/internal/app/repos"
+	"github.com/TBXark/gh-stars/internal/app/stars"
 	"github.com/TBXark/gh-stars/internal/ui/details"
+	starsui "github.com/TBXark/gh-stars/internal/ui/stars"
 )
 
-type Navigator interface {
-	ShowRepoDetails(fullName, token string)
-}
-
 type AppNavigator struct {
-	App     fyne.App
-	RepoSvc repos.Service
+	App      fyne.App
+	RepoSvc  repos.Service
+	StarsSvc stars.Service
 
 	mu      sync.Mutex
 	details map[string]fyne.Window
+}
+
+func (n *AppNavigator) ShowStars() {
+	w := starsui.NewStarsWindow(n.App, n.StarsSvc, n)
+
+	w.Show()
 }
 
 func (n *AppNavigator) ShowRepoDetails(fullName, token string) {

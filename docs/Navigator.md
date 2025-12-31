@@ -1,6 +1,6 @@
 # 窗口管理
 
-在 Fyne 里做“多个界面/页面”，思路和 iOS 的 UIViewController 很像：你需要一个**导航/路由层（Navigator）**来负责“打开新窗口、切换页面、返回、传参、刷新”。
+在 Fyne 里做“多个界面/页面”，思路和 iOS 的 UIViewController 很像：你需要一个**导航/路由层（Router）**来负责“打开新窗口、切换页面、返回、传参、刷新”。
 
 Fyne 常见的多界面方式有 3 种（按最常用排序）：
 
@@ -12,21 +12,34 @@ Fyne 常见的多界面方式有 3 种（按最常用排序）：
 
 ---
 
-## 推荐做法：引入 Navigator（路由器）
+## 推荐做法：引入 Router（路由器）
 
-你想避免耦合的话，不要在 RepoList 里直接 `a.NewWindow(...)`。RepoList 只抛出事件：`OnRepoSelected(repo)`。由 Navigator 决定“怎么展示详情”。
+你想避免耦合的话，不要在 RepoList 里直接 `a.NewWindow(...)`。RepoList 只抛出事件：`OnRepoSelected(repo)`。由 Router 决定“怎么展示详情”。
 
 如果导航可能从 goroutine 触发，记得用 `fyne.Do(...)` 把窗口创建/显示切回主线程。
 
-### Navigator 接口（UI 层的基础设施）
+### Router 接口（UI 层的基础设施）
+
+为避免包的循环引用，`Router` 接口单独放在 `internal/ui/route`；`AppNavigator` 的具体实现仍放在 `internal/ui/nav`。
 
 ```go
-type Navigator interface {
+type Router interface {
 	ShowRepoDetails(repoFullName string, token string) // 或者传 RepoID/URL
 }
 ```
 
-ViewModel 不需要知道 Fyne 的具体控件，只要依赖这个接口（或更纯一点：VM 只发事件，View 监听事件再调用 Navigator）。
+ViewModel 不需要知道 Fyne 的具体控件，只要依赖这个接口（或更纯一点：VM 只发事件，View 监听事件再调用 Router）。
+
+主窗口（Stars 列表）也可以由 Router 负责创建，这样 `main.go` 只做依赖组装。
+
+```go
+func (n *AppNavigator) ShowStars() {
+	w := starsui.NewStarsWindow(n.App, n.StarsSvc, n)
+	w.Show()
+}
+```
+
+应用的主循环可以放在 `main.go` 里调用 `fyneApp.Run()`。
 
 ---
 
@@ -53,7 +66,7 @@ func NewRepoDetailsWindow(a fyne.App, svc RepoService, fullName, token string) f
 }
 ```
 
-#### 2) Stars 列表页点击行 -> Navigator 打开窗口
+#### 2) Stars 列表页点击行 -> Router 打开窗口
 
 ```go
 type AppNavigator struct {
@@ -185,7 +198,7 @@ StarsPage push DetailsPage，就像 iOS push VC。
 * `StarsView`：RepoList + 输入框
 * `RepoDetailsVM`：负责单 repo 详情（可能调用 `/repos/{owner}/{repo}`、`/repos/.../languages`、`/repos/.../contributors`）
 * `RepoDetailsView`：详情页布局 + 刷新按钮
-* `Navigator`：决定是 new window 还是 push/pop
+* `Router`：决定是 new window 还是 push/pop
 
 RepoList 的事件链：
 `RepoList -> onOpen(repoFullName) -> StarsView -> nav.ShowRepoDetails(repoFullName, token) -> RepoDetailsWindow/Page -> RepoDetailsVM.Load()`

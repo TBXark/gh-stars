@@ -88,7 +88,7 @@ func (vm *VM) Load() {
 		if err != nil {
 			vm.runOnMain(func() {
 				_ = vm.Loading.Set(false)
-				_ = vm.Error.Set(errMessage(err))
+				_ = vm.Error.Set(err.Error())
 				_ = vm.Status.Set("Load failed")
 			})
 			return
@@ -151,14 +151,4 @@ func parsePerPage(value string) (int, error) {
 		return 0, errors.New("per_page must be between 1 and 100")
 	}
 	return perPage, nil
-}
-
-func errMessage(err error) string {
-	if errors.Is(err, context.Canceled) {
-		return "request canceled"
-	}
-	if errors.Is(err, context.DeadlineExceeded) {
-		return "request timeout"
-	}
-	return err.Error()
 }
