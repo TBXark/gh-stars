@@ -90,19 +90,11 @@ func setLabel(obj fyne.CanvasObject, text string) {
 }
 
 func repoFromItem(di binding.DataItem) (domain.Repo, error) {
-	item, ok := di.(binding.Untyped)
+	item, ok := di.(binding.Item[domain.Repo])
 	if !ok {
 		return domain.Repo{}, fmt.Errorf("invalid list item")
 	}
-	value, err := item.Get()
-	if err != nil {
-		return domain.Repo{}, err
-	}
-	repo, ok := value.(domain.Repo)
-	if !ok {
-		return domain.Repo{}, fmt.Errorf("invalid repo type")
-	}
-	return repo, nil
+	return item.Get()
 }
 
 func valueOrDash(value string) string {

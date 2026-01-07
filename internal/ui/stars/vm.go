@@ -23,7 +23,7 @@ type VM struct {
 	Status  binding.String
 	Error   binding.String
 
-	Repos binding.UntypedList
+	Repos binding.List[domain.Repo]
 
 	svc       stars.Loader
 	runOnMain func(func())
@@ -43,7 +43,7 @@ func NewVM(svc stars.Loader, runOnMain func(func())) *VM {
 		Loading:   binding.NewBool(),
 		Status:    binding.NewString(),
 		Error:     binding.NewString(),
-		Repos:     binding.NewUntypedList(),
+		Repos:     binding.NewList(func(a, b domain.Repo) bool { return a == b }),
 		svc:       svc,
 		runOnMain: runOnMain,
 	}
