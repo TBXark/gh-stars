@@ -45,27 +45,30 @@ func NewView(w fyne.Window, vm *VM) fyne.CanvasObject {
 	name := widget.NewLabelWithData(vm.Name)
 	name.Wrapping = fyne.TextTruncate
 
-	desc := widget.NewLabelWithData(vm.Description)
-	desc.Wrapping = fyne.TextWrapWord
+	newWrapLabel := func(value binding.String) *widget.Label {
+		label := widget.NewLabelWithData(value)
+		label.Wrapping = fyne.TextWrapBreak
+		return label
+	}
 
 	form := widget.NewForm(
-		widget.NewFormItem("Full Name", widget.NewLabelWithData(vm.Name)),
-		widget.NewFormItem("Description", desc),
-		widget.NewFormItem("Language", widget.NewLabelWithData(vm.Language)),
-		widget.NewFormItem("Stars", widget.NewLabelWithData(vm.Stars)),
-		widget.NewFormItem("Forks", widget.NewLabelWithData(vm.Forks)),
-		widget.NewFormItem("Watchers", widget.NewLabelWithData(vm.Watchers)),
-		widget.NewFormItem("Open Issues", widget.NewLabelWithData(vm.OpenIssues)),
-		widget.NewFormItem("Default Branch", widget.NewLabelWithData(vm.DefaultBranch)),
-		widget.NewFormItem("License", widget.NewLabelWithData(vm.License)),
-		widget.NewFormItem("Topics", widget.NewLabelWithData(vm.Topics)),
-		widget.NewFormItem("Homepage", widget.NewLabelWithData(vm.Homepage)),
-		widget.NewFormItem("HTML URL", widget.NewLabelWithData(vm.HTMLURL)),
-		widget.NewFormItem("Private", widget.NewLabelWithData(vm.Private)),
-		widget.NewFormItem("Size", widget.NewLabelWithData(vm.Size)),
-		widget.NewFormItem("Updated", widget.NewLabelWithData(vm.UpdatedAt)),
-		widget.NewFormItem("Created", widget.NewLabelWithData(vm.CreatedAt)),
-		widget.NewFormItem("Pushed", widget.NewLabelWithData(vm.PushedAt)),
+		widget.NewFormItem("Full Name", newWrapLabel(vm.Name)),
+		widget.NewFormItem("Description", newWrapLabel(vm.Description)),
+		widget.NewFormItem("Language", newWrapLabel(vm.Language)),
+		widget.NewFormItem("Stars", newWrapLabel(vm.Stars)),
+		widget.NewFormItem("Forks", newWrapLabel(vm.Forks)),
+		widget.NewFormItem("Watchers", newWrapLabel(vm.Watchers)),
+		widget.NewFormItem("Open Issues", newWrapLabel(vm.OpenIssues)),
+		widget.NewFormItem("Default Branch", newWrapLabel(vm.DefaultBranch)),
+		widget.NewFormItem("License", newWrapLabel(vm.License)),
+		widget.NewFormItem("Topics", newWrapLabel(vm.Topics)),
+		widget.NewFormItem("Homepage", newWrapLabel(vm.Homepage)),
+		widget.NewFormItem("HTML URL", newWrapLabel(vm.HTMLURL)),
+		widget.NewFormItem("Private", newWrapLabel(vm.Private)),
+		widget.NewFormItem("Size", newWrapLabel(vm.Size)),
+		widget.NewFormItem("Updated", newWrapLabel(vm.UpdatedAt)),
+		widget.NewFormItem("Created", newWrapLabel(vm.CreatedAt)),
+		widget.NewFormItem("Pushed", newWrapLabel(vm.PushedAt)),
 	)
 
 	header := container.NewBorder(
