@@ -149,10 +149,10 @@ func parsePerPage(value string) (int, error) {
 	}
 	perPage, err := strconv.Atoi(value)
 	if err != nil {
-		return 0, errors.New("per_page must be a number")
+		return 0, errors.New("per page must be a number")
 	}
 	if perPage < 1 || perPage > 100 {
-		return 0, errors.New("per_page must be between 1 and 100")
+		return 0, errors.New("per page must be between 1 and 100")
 	}
 	return perPage, nil
 }

@@ -15,11 +15,11 @@ import (
 
 func NewRepoList(vm *VM, onOpen func(domain.Repo)) fyne.CanvasObject {
 	headers := container.NewGridWithColumns(5,
-		headerLabel("Name"),
-		headerLabel("Description"),
-		headerLabel("Language"),
-		headerLabel("Stars"),
-		headerLabel("Updated"),
+		headerLabel("Name", fyne.TextAlignLeading),
+		headerLabel("Description", fyne.TextAlignLeading),
+		headerLabel("Language", fyne.TextAlignLeading),
+		headerLabel("Stars", fyne.TextAlignTrailing),
+		headerLabel("Updated", fyne.TextAlignTrailing),
 	)
 
 	list := widget.NewListWithData(vm.Repos, func() fyne.CanvasObject {
@@ -40,13 +40,12 @@ func NewRepoList(vm *VM, onOpen func(domain.Repo)) fyne.CanvasObject {
 		list.Unselect(id)
 	}
 
-	return container.NewBorder(headers, nil, nil, nil, list)
+	header := container.NewVBox(headers, widget.NewSeparator())
+	return container.NewBorder(header, nil, nil, nil, list)
 }
 
-func headerLabel(text string) *widget.Label {
-	label := widget.NewLabel(text)
-	label.TextStyle = fyne.TextStyle{Bold: true}
-	return label
+func headerLabel(text string, align fyne.TextAlign) *widget.Label {
+	return widget.NewLabelWithStyle(text, align, fyne.TextStyle{Bold: true})
 }
 
 func newRepoRow() fyne.CanvasObject {

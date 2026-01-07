@@ -86,7 +86,7 @@ func TestVM_Load_InvalidPerPage(t *testing.T) {
 	errorMsg, _ := vm.Error.Get()
 
 	testutil.AssertEqual(t, "Load failed", status)
-	testutil.AssertEqual(t, "per_page must be a number", errorMsg)
+	testutil.AssertEqual(t, "per page must be a number", errorMsg)
 	testutil.AssertEqual(t, 0, mockSvc.GetLoadStarredCount())
 }
 

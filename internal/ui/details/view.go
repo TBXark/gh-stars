@@ -4,16 +4,18 @@ import (
 	"net/url"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/layout"
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
 	"github.com/TBXark/gh-stars/internal/ui/widgets"
 )
 
 func NewView(w fyne.Window, vm *VM) fyne.CanvasObject {
-	refresh := widget.NewButton("Refresh", vm.Load)
+	refresh := widget.NewButtonWithIcon("Refresh", theme.ViewRefreshIcon(), vm.Load)
 
 	vm.Loading.AddListener(binding.NewDataListener(func() {
 		loading, _ := vm.Loading.Get()
@@ -24,7 +26,7 @@ func NewView(w fyne.Window, vm *VM) fyne.CanvasObject {
 		}
 	}))
 
-	openBtn := widget.NewButton("Open in Browser", func() {
+	openBtn := widget.NewButtonWithIcon("Open in Browser", theme.NavigateNextIcon(), func() {
 		urlStr, _ := vm.HTMLURL.Get()
 		if urlStr == "" || urlStr == "-" {
 			return
@@ -36,8 +38,12 @@ func NewView(w fyne.Window, vm *VM) fyne.CanvasObject {
 		_ = fyne.CurrentApp().OpenURL(parsed)
 	})
 
-	title := widget.NewLabelWithData(vm.Name)
-	title.Wrapping = fyne.TextTruncate
+	title := canvas.NewText("Repository Details", theme.ForegroundColor())
+	title.TextStyle = fyne.TextStyle{Bold: true}
+	title.TextSize = theme.TextHeadingSize()
+
+	name := widget.NewLabelWithData(vm.Name)
+	name.Wrapping = fyne.TextTruncate
 
 	desc := widget.NewLabelWithData(vm.Description)
 	desc.Wrapping = fyne.TextWrapWord
@@ -62,8 +68,18 @@ func NewView(w fyne.Window, vm *VM) fyne.CanvasObject {
 		widget.NewFormItem("Pushed", widget.NewLabelWithData(vm.PushedAt)),
 	)
 
-	top := container.NewHBox(title, layout.NewSpacer(), openBtn, refresh)
-	statusBar := widgets.NewStatusPanel(vm.Status, vm.Error)
+	header := container.NewBorder(
+		nil,
+		nil,
+		nil,
+		container.NewHBox(layout.NewSpacer(), openBtn, refresh),
+		container.NewVBox(title, name),
+	)
+	statusBar := widgets.NewStatusPanel(vm.Status, vm.Error, vm.Loading)
 
-	return container.NewBorder(top, statusBar, nil, nil, form)
+	detailsCard := widget.NewCard("", "Overview and metadata.", form)
+	content := container.NewVScroll(container.NewPadded(detailsCard))
+	top := container.NewPadded(container.NewVBox(header, widget.NewSeparator()))
+
+	return container.NewBorder(top, container.NewPadded(statusBar), nil, nil, content)
 }

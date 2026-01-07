@@ -22,11 +22,11 @@ func NewCredentialsForm(username, token, perPage binding.String) *widget.Form {
 	tokenEntry.SetPlaceHolder("optional")
 
 	perPageEntry := widget.NewEntryWithData(perPage)
-	perPageEntry.SetPlaceHolder("1-100")
+	perPageEntry.SetPlaceHolder("1-100 (default 100)")
 
 	return widget.NewForm(
 		widget.NewFormItem("Username", usernameEntry),
 		widget.NewFormItem("Token", tokenEntry),
-		widget.NewFormItem("per_page", perPageEntry),
+		widget.NewFormItem("Per Page", perPageEntry),
 	)
 }
