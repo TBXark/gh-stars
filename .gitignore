@@ -140,5 +140,6 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/goland,go
 
 specs/
+wasm/
 .github/agents
 .github/prompts
