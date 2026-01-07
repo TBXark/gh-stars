@@ -7,7 +7,6 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/data/binding"
-	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
 	"github.com/TBXark/gh-stars/internal/domain"
@@ -49,44 +48,50 @@ func headerLabel(text string, align fyne.TextAlign) *widget.Label {
 }
 
 func newRepoRow() fyne.CanvasObject {
-	name := widget.NewLabel("")
-	name.Wrapping = fyne.TextTruncate
-
-	desc := widget.NewLabel("")
-	desc.Wrapping = fyne.TextTruncate
-
-	lang := widget.NewLabel("")
-	lang.Wrapping = fyne.TextTruncate
-
-	stars := widget.NewLabel("")
-	stars.Alignment = fyne.TextAlignTrailing
-
-	updated := widget.NewLabel("")
-	updated.Alignment = fyne.TextAlignTrailing
-
-	row := container.NewGridWithColumns(5, name, desc, lang, stars, updated)
-	row.Layout = layout.NewGridLayoutWithColumns(5)
-	return row
+	return newRepoRowWidget()
 }
 
 func updateRepoRow(obj fyne.CanvasObject, repo domain.Repo) {
-	row, ok := obj.(*fyne.Container)
-	if !ok || len(row.Objects) < 5 {
-		return
-	}
-	setLabel(row.Objects[0], repo.FullName)
-	setLabel(row.Objects[1], valueOrDash(repo.Description))
-	setLabel(row.Objects[2], valueOrDash(repo.Language))
-	setLabel(row.Objects[3], fmt.Sprintf("%d", repo.Stars))
-	setLabel(row.Objects[4], formatDate(repo.UpdatedAt))
-}
-
-func setLabel(obj fyne.CanvasObject, text string) {
-	label, ok := obj.(*widget.Label)
+	row, ok := obj.(*repoRowWidget)
 	if !ok {
 		return
 	}
-	label.SetText(text)
+	row.name.SetText(repo.FullName)
+	row.desc.SetText(valueOrDash(repo.Description))
+	row.lang.SetText(valueOrDash(repo.Language))
+	row.stars.SetText(fmt.Sprintf("%d", repo.Stars))
+	row.updated.SetText(formatDate(repo.UpdatedAt))
+}
+
+type repoRowWidget struct {
+	widget.BaseWidget
+	name    *widget.Label
+	desc    *widget.Label
+	lang    *widget.Label
+	stars   *widget.Label
+	updated *widget.Label
+}
+
+func newRepoRowWidget() *repoRowWidget {
+	row := &repoRowWidget{
+		name:    widget.NewLabel(""),
+		desc:    widget.NewLabel(""),
+		lang:    widget.NewLabel(""),
+		stars:   widget.NewLabel(""),
+		updated: widget.NewLabel(""),
+	}
+	row.name.Wrapping = fyne.TextTruncate
+	row.desc.Wrapping = fyne.TextTruncate
+	row.lang.Wrapping = fyne.TextTruncate
+	row.stars.Alignment = fyne.TextAlignTrailing
+	row.updated.Alignment = fyne.TextAlignTrailing
+	row.ExtendBaseWidget(row)
+	return row
+}
+
+func (row *repoRowWidget) CreateRenderer() fyne.WidgetRenderer {
+	grid := container.NewGridWithColumns(5, row.name, row.desc, row.lang, row.stars, row.updated)
+	return widget.NewSimpleRenderer(grid)
 }
 
 func repoFromItem(di binding.DataItem) (domain.Repo, error) {
