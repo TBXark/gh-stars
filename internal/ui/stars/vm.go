@@ -25,7 +25,7 @@ type VM struct {
 
 	Repos binding.UntypedList
 
-	svc       stars.Service
+	svc       stars.Loader
 	runOnMain func(func())
 
 	mu     sync.Mutex
@@ -35,7 +35,7 @@ type VM struct {
 	repos   []domain.Repo
 }
 
-func NewVM(svc stars.Service, runOnMain func(func())) *VM {
+func NewVM(svc stars.Loader, runOnMain func(func())) *VM {
 	vm := &VM{
 		Username:  binding.NewString(),
 		Token:     binding.NewString(),
@@ -102,13 +102,17 @@ func (vm *VM) Load() {
 	}()
 }
 
-func (vm *VM) Clear() {
+func (vm *VM) Cleanup() {
 	vm.mu.Lock()
 	if vm.cancel != nil {
 		vm.cancel()
 		vm.cancel = nil
 	}
 	vm.mu.Unlock()
+}
+
+func (vm *VM) Clear() {
+	vm.Cleanup()
 
 	vm.runOnMain(func() {
 		vm.setRepos(nil)

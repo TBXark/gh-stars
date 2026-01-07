@@ -9,19 +9,10 @@ import (
 
 	"github.com/TBXark/gh-stars/internal/domain"
 	"github.com/TBXark/gh-stars/internal/ui/route"
+	"github.com/TBXark/gh-stars/internal/ui/widgets"
 )
 
 func NewView(w fyne.Window, vm *VM, router route.Router) fyne.CanvasObject {
-	username := widget.NewEntryWithData(vm.Username)
-	username.SetPlaceHolder("octocat")
-
-	token := widget.NewPasswordEntry()
-	token.Bind(vm.Token)
-	token.SetPlaceHolder("optional")
-
-	perPage := widget.NewEntryWithData(vm.PerPage)
-	perPage.SetPlaceHolder("1-100")
-
 	loadBtn := widget.NewButton("Load Stars", vm.Load)
 	clearBtn := widget.NewButton("Clear", vm.Clear)
 
@@ -34,16 +25,9 @@ func NewView(w fyne.Window, vm *VM, router route.Router) fyne.CanvasObject {
 		}
 	}))
 
-	form := widget.NewForm(
-		widget.NewFormItem("Username", username),
-		widget.NewFormItem("Token", token),
-		widget.NewFormItem("per_page", perPage),
-	)
-
+	form := widgets.NewCredentialsForm(vm.Username, vm.Token, vm.PerPage)
 	toolbar := container.NewHBox(loadBtn, clearBtn, layout.NewSpacer())
-	status := widget.NewLabelWithData(vm.Status)
-	errLabel := widget.NewLabelWithData(vm.Error)
-	statusBar := container.NewVBox(status, errLabel)
+	statusBar := widgets.NewStatusPanel(vm.Status, vm.Error)
 
 	onOpen := func(repo domain.Repo) {
 		if router == nil {

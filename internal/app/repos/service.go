@@ -7,6 +7,11 @@ import (
 	"github.com/TBXark/gh-stars/internal/github"
 )
 
+// Loader defines the interface for loading repository details
+type Loader interface {
+	LoadDetails(ctx context.Context, fullName, token string) (domain.RepoDetails, error)
+}
+
 type Service struct {
 	GH github.Client
 }

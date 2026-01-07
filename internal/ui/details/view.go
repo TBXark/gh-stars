@@ -5,12 +5,25 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
+
+	"github.com/TBXark/gh-stars/internal/ui/widgets"
 )
 
 func NewView(w fyne.Window, vm *VM) fyne.CanvasObject {
 	refresh := widget.NewButton("Refresh", vm.Load)
+
+	vm.Loading.AddListener(binding.NewDataListener(func() {
+		loading, _ := vm.Loading.Get()
+		if loading {
+			refresh.Disable()
+		} else {
+			refresh.Enable()
+		}
+	}))
+
 	openBtn := widget.NewButton("Open in Browser", func() {
 		urlStr, _ := vm.HTMLURL.Get()
 		if urlStr == "" || urlStr == "-" {
@@ -50,10 +63,7 @@ func NewView(w fyne.Window, vm *VM) fyne.CanvasObject {
 	)
 
 	top := container.NewHBox(title, layout.NewSpacer(), openBtn, refresh)
-
-	status := widget.NewLabelWithData(vm.Status)
-	errLabel := widget.NewLabelWithData(vm.Error)
-	statusBar := container.NewVBox(status, errLabel)
+	statusBar := widgets.NewStatusPanel(vm.Status, vm.Error)
 
 	return container.NewBorder(top, statusBar, nil, nil, form)
 }

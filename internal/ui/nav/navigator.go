@@ -13,16 +13,35 @@ import (
 
 type AppNavigator struct {
 	App      fyne.App
-	RepoSvc  repos.Service
-	StarsSvc stars.Service
+	RepoSvc  repos.Loader
+	StarsSvc stars.Loader
 
-	mu      sync.Mutex
-	details map[string]fyne.Window
+	mu          sync.Mutex
+	starsWindow fyne.Window
+	details     map[string]fyne.Window
 }
 
 func (n *AppNavigator) ShowStars() {
+	n.mu.Lock()
+	if n.starsWindow != nil {
+		n.mu.Unlock()
+		n.starsWindow.RequestFocus()
+		n.starsWindow.Show()
+		return
+	}
+	n.mu.Unlock()
+
 	w := starsui.NewStarsWindow(n.App, n.StarsSvc, n)
 
+	n.mu.Lock()
+	n.starsWindow = w
+	n.mu.Unlock()
+
+	w.SetOnClosed(func() {
+		n.mu.Lock()
+		n.starsWindow = nil
+		n.mu.Unlock()
+	})
 	w.Show()
 }
 

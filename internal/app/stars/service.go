@@ -7,6 +7,11 @@ import (
 	"github.com/TBXark/gh-stars/internal/github"
 )
 
+// Loader defines the interface for loading starred repositories
+type Loader interface {
+	LoadStarred(ctx context.Context, username, token string, perPage int) ([]domain.Repo, error)
+}
+
 type Service struct {
 	GH github.Client
 }

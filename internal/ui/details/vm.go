@@ -40,14 +40,14 @@ type VM struct {
 	Private       binding.String
 	HTMLURL       binding.String
 
-	svc       repos.Service
+	svc       repos.Loader
 	runOnMain func(func())
 
 	mu     sync.Mutex
 	cancel context.CancelFunc
 }
 
-func NewVM(svc repos.Service, fullName, token string, runOnMain func(func())) *VM {
+func NewVM(svc repos.Loader, fullName, token string, runOnMain func(func())) *VM {
 	vm := &VM{
 		FullName:      fullName,
 		Token:         token,
@@ -114,6 +114,15 @@ func (vm *VM) Load() {
 			_ = vm.Status.Set("Loaded")
 		})
 	}()
+}
+
+func (vm *VM) Cleanup() {
+	vm.mu.Lock()
+	if vm.cancel != nil {
+		vm.cancel()
+		vm.cancel = nil
+	}
+	vm.mu.Unlock()
 }
 
 func (vm *VM) apply(repo domain.RepoDetails) {
