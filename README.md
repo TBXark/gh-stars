@@ -2,6 +2,8 @@
 
 A Fyne MVVM best-practice example using a GitHub Stars viewer as the sample app.
 
+![img.png](docs/preview.png)
+
 ## What this project demonstrates
 
 - **MVVM Architecture**: 5-layer separation (View → ViewModel → Service → Client → Domain)
@@ -34,7 +36,7 @@ Domain ← Service ← ViewModel ← View
 ## Run
 
 ```bash
-go run ./cmd/stars-gui
+go run .
 ```
 
 Token is optional, but recommended to increase GitHub API rate limits.
@@ -58,7 +60,7 @@ go tool cover -html=coverage.out -o coverage.html
 
 ## Structure
 
-- `cmd/stars-gui/main.go`: Entry point and wiring
+- `main.go`: Entry point and wiring
 - `internal/app/`: Use cases (stars / repos services)
   - `stars/`: Starred repositories loading
   - `repos/`: Repository details loading
