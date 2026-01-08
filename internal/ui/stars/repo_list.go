@@ -22,7 +22,7 @@ func NewRepoList(vm *VM, onOpen func(domain.Repo)) fyne.CanvasObject {
 	)
 
 	list := widget.NewListWithData(vm.Repos, func() fyne.CanvasObject {
-		return newRepoRow()
+		return newRepoRowWidget()
 	}, func(di binding.DataItem, obj fyne.CanvasObject) {
 		repo, err := repoFromItem(di)
 		if err != nil {
@@ -45,10 +45,6 @@ func NewRepoList(vm *VM, onOpen func(domain.Repo)) fyne.CanvasObject {
 
 func headerLabel(text string, align fyne.TextAlign) *widget.Label {
 	return widget.NewLabelWithStyle(text, align, fyne.TextStyle{Bold: true})
-}
-
-func newRepoRow() fyne.CanvasObject {
-	return newRepoRowWidget()
 }
 
 func updateRepoRow(obj fyne.CanvasObject, repo domain.Repo) {
