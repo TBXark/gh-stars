@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/TBXark/gh-stars/internal/domain"
+	"github.com/tbxark/gh-stars/internal/domain"
 )
 
 const (

@@ -10,8 +10,8 @@ import (
 
 	"fyne.io/fyne/v2/data/binding"
 
-	"github.com/TBXark/gh-stars/internal/app/stars"
-	"github.com/TBXark/gh-stars/internal/domain"
+	"github.com/tbxark/gh-stars/internal/app/stars"
+	"github.com/tbxark/gh-stars/internal/domain"
 )
 
 type VM struct {

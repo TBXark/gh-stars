@@ -6,11 +6,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/TBXark/gh-stars/internal/app/stars"
-	"github.com/TBXark/gh-stars/internal/domain"
-	"github.com/TBXark/gh-stars/internal/domain/testdata"
-	"github.com/TBXark/gh-stars/internal/testutil"
-	uistars "github.com/TBXark/gh-stars/internal/ui/stars"
+	"github.com/tbxark/gh-stars/internal/app/stars"
+	"github.com/tbxark/gh-stars/internal/domain"
+	"github.com/tbxark/gh-stars/internal/domain/testdata"
+	"github.com/tbxark/gh-stars/internal/testutil"
+	uistars "github.com/tbxark/gh-stars/internal/ui/stars"
 )
 
 func TestVM_Load_Success(t *testing.T) {

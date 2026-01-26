@@ -3,10 +3,10 @@ package nav_test
 import (
 	"testing"
 
-	"github.com/TBXark/gh-stars/internal/app/repos"
-	"github.com/TBXark/gh-stars/internal/app/stars"
-	"github.com/TBXark/gh-stars/internal/testutil"
-	"github.com/TBXark/gh-stars/internal/ui/nav"
+	"github.com/tbxark/gh-stars/internal/app/repos"
+	"github.com/tbxark/gh-stars/internal/app/stars"
+	"github.com/tbxark/gh-stars/internal/testutil"
+	"github.com/tbxark/gh-stars/internal/ui/nav"
 )
 
 func TestAppNavigator_Initialization(t *testing.T) {

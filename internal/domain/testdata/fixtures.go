@@ -3,7 +3,7 @@ package testdata
 import (
 	"time"
 
-	"github.com/TBXark/gh-stars/internal/domain"
+	"github.com/tbxark/gh-stars/internal/domain"
 )
 
 // SampleRepo returns a sample Repo for testing

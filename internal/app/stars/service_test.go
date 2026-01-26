@@ -5,11 +5,11 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/TBXark/gh-stars/internal/app/stars"
-	"github.com/TBXark/gh-stars/internal/domain"
-	"github.com/TBXark/gh-stars/internal/domain/testdata"
-	"github.com/TBXark/gh-stars/internal/github"
-	"github.com/TBXark/gh-stars/internal/testutil"
+	"github.com/tbxark/gh-stars/internal/app/stars"
+	"github.com/tbxark/gh-stars/internal/domain"
+	"github.com/tbxark/gh-stars/internal/domain/testdata"
+	"github.com/tbxark/gh-stars/internal/github"
+	"github.com/tbxark/gh-stars/internal/testutil"
 )
 
 func TestService_LoadStarred_Success(t *testing.T) {

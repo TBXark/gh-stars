@@ -5,10 +5,10 @@ import (
 
 	"fyne.io/fyne/v2"
 
-	"github.com/TBXark/gh-stars/internal/app/repos"
-	"github.com/TBXark/gh-stars/internal/app/stars"
-	"github.com/TBXark/gh-stars/internal/ui/details"
-	starsui "github.com/TBXark/gh-stars/internal/ui/stars"
+	"github.com/tbxark/gh-stars/internal/app/repos"
+	"github.com/tbxark/gh-stars/internal/app/stars"
+	"github.com/tbxark/gh-stars/internal/ui/details"
+	starsui "github.com/tbxark/gh-stars/internal/ui/stars"
 )
 
 type AppNavigator struct {

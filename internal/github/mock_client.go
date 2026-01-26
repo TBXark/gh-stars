@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/TBXark/gh-stars/internal/domain"
+	"github.com/tbxark/gh-stars/internal/domain"
 )
 
 // MockClient is a mock implementation of GitHub client for testing

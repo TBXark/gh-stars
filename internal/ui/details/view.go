@@ -11,7 +11,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
-	"github.com/TBXark/gh-stars/internal/ui/widgets"
+	"github.com/tbxark/gh-stars/internal/ui/widgets"
 )
 
 func NewView(w fyne.Window, vm *VM) fyne.CanvasObject {

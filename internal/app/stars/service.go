@@ -3,8 +3,8 @@ package stars
 import (
 	"context"
 
-	"github.com/TBXark/gh-stars/internal/domain"
-	"github.com/TBXark/gh-stars/internal/github"
+	"github.com/tbxark/gh-stars/internal/domain"
+	"github.com/tbxark/gh-stars/internal/github"
 )
 
 // Loader defines the interface for loading starred repositories

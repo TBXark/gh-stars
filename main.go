@@ -3,10 +3,10 @@ package main
 import (
 	"fyne.io/fyne/v2/app"
 
-	"github.com/TBXark/gh-stars/internal/app/repos"
-	"github.com/TBXark/gh-stars/internal/app/stars"
-	"github.com/TBXark/gh-stars/internal/github"
-	"github.com/TBXark/gh-stars/internal/ui/nav"
+	"github.com/tbxark/gh-stars/internal/app/repos"
+	"github.com/tbxark/gh-stars/internal/app/stars"
+	"github.com/tbxark/gh-stars/internal/github"
+	"github.com/tbxark/gh-stars/internal/ui/nav"
 )
 
 func main() {

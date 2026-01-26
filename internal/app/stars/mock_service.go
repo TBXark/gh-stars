@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/TBXark/gh-stars/internal/domain"
+	"github.com/tbxark/gh-stars/internal/domain"
 )
 
 // MockService is a mock implementation of stars.Loader for testing

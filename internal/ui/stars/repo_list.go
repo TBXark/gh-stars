@@ -9,7 +9,7 @@ import (
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/widget"
 
-	"github.com/TBXark/gh-stars/internal/domain"
+	"github.com/tbxark/gh-stars/internal/domain"
 )
 
 func NewRepoList(vm *VM, onOpen func(domain.Repo)) fyne.CanvasObject {

@@ -3,8 +3,8 @@ package stars
 import (
 	"fyne.io/fyne/v2"
 
-	appstars "github.com/TBXark/gh-stars/internal/app/stars"
-	"github.com/TBXark/gh-stars/internal/ui/route"
+	appstars "github.com/tbxark/gh-stars/internal/app/stars"
+	"github.com/tbxark/gh-stars/internal/ui/route"
 )
 
 func NewStarsWindow(app fyne.App, svc appstars.Loader, router route.Router) fyne.Window {

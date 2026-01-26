@@ -3,7 +3,7 @@ package details
 import (
 	"fyne.io/fyne/v2"
 
-	"github.com/TBXark/gh-stars/internal/app/repos"
+	"github.com/tbxark/gh-stars/internal/app/repos"
 )
 
 func NewRepoDetailsWindow(app fyne.App, svc repos.Loader, fullName, token string) fyne.Window {
